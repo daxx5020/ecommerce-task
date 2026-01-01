@@ -4,6 +4,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Admin\UserManagementController;
+use App\Http\Controllers\Api\Admin\ProductController;
+use App\Http\Controllers\Api\User\ProductBrowseController;
+use App\Http\Controllers\Api\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Api\User\OrderController as UserOrderController;
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -22,7 +27,10 @@ Route::middleware('auth:sanctum')->group(function () {
      * User APIs
      */
     Route::middleware('role:user')->group(function () {
-        // user-only routes (orders, profile later)
+        Route::get('/products', [ProductBrowseController::class, 'index']);
+        Route::post('/orders', [UserOrderController::class, 'store']);
+        Route::get('/my-orders', [UserOrderController::class, 'index']);
+
     });
 
     /**
@@ -32,5 +40,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/users', [UserManagementController::class, 'index']);
         Route::get('/users/{id}', [UserManagementController::class, 'show']);
         Route::patch('/users/{id}/status', [UserManagementController::class, 'updateStatus']);
+        Route::post('/products', [ProductController::class, 'store']);
+        Route::patch('/orders/{id}/status', [AdminOrderController::class, 'updateStatus']);
+        Route::get('/orders', [AdminOrderController::class, 'index']);
+
     });
 });

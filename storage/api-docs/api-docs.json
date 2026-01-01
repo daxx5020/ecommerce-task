@@ -15,6 +15,149 @@
         }
     ],
     "paths": {
+        "/api/admin/orders": {
+            "get": {
+                "tags": [
+                    "Admin - Orders"
+                ],
+                "summary": "List orders with filters",
+                "operationId": "d75d385d3719d4db92df549d42f08cff",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "example": "pending"
+                    },
+                    {
+                        "name": "from_date",
+                        "in": "query",
+                        "example": "2026-01-01"
+                    },
+                    {
+                        "name": "to_date",
+                        "in": "query",
+                        "example": "2026-01-31"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/orders/{id}/status": {
+            "patch": {
+                "tags": [
+                    "Admin - Orders"
+                ],
+                "summary": "Update order status",
+                "operationId": "5df4d011fb2613db2ceac1cf8af67a82",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 12
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "status"
+                                ],
+                                "properties": {
+                                    "status": {
+                                        "description": "pending | confirmed | shipped | cancelled",
+                                        "type": "string",
+                                        "example": "confirmed"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order status updated"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/products": {
+            "post": {
+                "tags": [
+                    "Admin - Products"
+                ],
+                "summary": "Create product",
+                "operationId": "e78a4cd5a8e47d96daa7a5a7a13d3e30",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "price",
+                                    "quantity"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": 100
+                                    },
+                                    "discount": {
+                                        "type": "number",
+                                        "example": 10
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product created"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/admin/users": {
             "get": {
                 "tags": [
@@ -230,6 +373,108 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/my-orders": {
+            "get": {
+                "tags": [
+                    "User - Orders"
+                ],
+                "summary": "View own orders",
+                "operationId": "94de4ff3dc8c3f3f24e1cfe86995f54f",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/orders": {
+            "post": {
+                "tags": [
+                    "User - Orders"
+                ],
+                "summary": "Place an order",
+                "operationId": "b718eaae470a635681dec827bdcf3e25",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "items"
+                                ],
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "product_id",
+                                                "quantity"
+                                            ],
+                                            "properties": {
+                                                "product_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order placed successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "User - Products"
+                ],
+                "summary": "List available products",
+                "operationId": "8c468d56afdda9d9df4eea62c178bff8",
+                "parameters": [
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "example": "discount"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         }
     },
@@ -459,12 +704,28 @@
     },
     "tags": [
         {
+            "name": "Admin - Orders",
+            "description": "Admin - Orders"
+        },
+        {
+            "name": "Admin - Products",
+            "description": "Admin - Products"
+        },
+        {
             "name": "Admin - Users",
             "description": "Admin - Users"
         },
         {
             "name": "Authentication",
             "description": "Authentication"
+        },
+        {
+            "name": "User - Orders",
+            "description": "User - Orders"
+        },
+        {
+            "name": "User - Products",
+            "description": "User - Products"
         }
     ],
     "security": [
