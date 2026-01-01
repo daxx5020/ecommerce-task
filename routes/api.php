@@ -11,3 +11,23 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+/**
+ * Authenticated APIs
+ */
+Route::middleware('auth:sanctum')->group(function () {
+
+    /**
+     * User APIs
+     */
+    Route::middleware('role:user')->group(function () {
+        // user-only routes (orders, profile later)
+    });
+
+    /**
+     * Admin APIs
+     */
+    Route::middleware('role:super-admin')->group(function () {
+        // admin-only routes (user management, products later)
+    });
+});
