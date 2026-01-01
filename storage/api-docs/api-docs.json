@@ -201,6 +201,141 @@
                 ]
             }
         },
+        "/api/admin/products/{id}": {
+            "patch": {
+                "tags": [
+                    "Admin - Products"
+                ],
+                "summary": "Update product details",
+                "operationId": "22755da6d0761bd401c33c79a4f889c2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Product name"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": 120
+                                    },
+                                    "discount": {
+                                        "type": "number",
+                                        "example": 10
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 15
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Product updated successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/products/{id}/logs": {
+            "get": {
+                "tags": [
+                    "Admin - Products"
+                ],
+                "summary": "View product activity logs",
+                "operationId": "2e9d50664275200686119a4a837e2e8d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product activity logs",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "logs": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/reports/top-users": {
+            "get": {
+                "tags": [
+                    "Admin - Reports"
+                ],
+                "summary": "Top users by order metrics",
+                "operationId": "47a6777d12705c9ea6f8afc12d0f6087",
+                "parameters": [
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "example": "2026-01-01"
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "example": "2026-01-31"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/admin/users": {
             "get": {
                 "tags": [
@@ -519,6 +654,64 @@
                     }
                 ]
             }
+        },
+        "/api/profile": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update user profile",
+                "operationId": "61f3562b9477dd4a3bdd5d6927bf1ebc",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profile updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Profile updated successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -632,7 +825,7 @@
                         "type": "boolean",
                         "example": true
                     },
-                    "last_login": {
+                    "last_login_at": {
                         "type": "string",
                         "format": "date-time",
                         "example": "2026-01-01T10:00:00.000000Z",
@@ -759,6 +952,10 @@
             "description": "Admin - Products"
         },
         {
+            "name": "Admin - Reports",
+            "description": "Admin - Reports"
+        },
+        {
             "name": "Admin - Users",
             "description": "Admin - Users"
         },
@@ -773,6 +970,10 @@
         {
             "name": "User - Products",
             "description": "User - Products"
+        },
+        {
+            "name": "User",
+            "description": "User"
         }
     ],
     "security": [

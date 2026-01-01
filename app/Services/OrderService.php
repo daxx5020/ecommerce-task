@@ -46,6 +46,12 @@ class OrderService
 
             $this->orderRepository->updateTotal($order, $total);
 
+            dispatch(new SendBulkNotificationJob(
+                'Order Placed',
+                'Your order has been placed successfully'
+            ));
+
+
             return $order;
         });
     }

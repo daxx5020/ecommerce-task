@@ -26,4 +26,9 @@ class ProductRepository implements ProductRepositoryInterface
 
         return $query->get(['id', 'name', 'price', 'discount', 'quantity']);
     }
+
+    public function findById(int $id): Product
+    {
+        return Product::findOrFail($id);
+    }
 }

@@ -34,7 +34,7 @@ namespace App\Swagger;
  *     @OA\Property(property="email", type="string", format="email", example="john@example.com", description="User's email address"),
  *     @OA\Property(property="email_verified_at", type="string", format="date-time", nullable=true, example=null),
  *     @OA\Property(property="status", type="boolean", example=true, description="Account status (active/inactive)"),
- *     @OA\Property(property="last_login", type="string", format="date-time", nullable=true, example="2026-01-01T10:00:00.000000Z"),
+ *     @OA\Property(property="last_login_at", type="string", format="date-time", nullable=true, example="2026-01-01T10:00:00.000000Z"),
  *     @OA\Property(property="created_at", type="string", format="date-time", example="2026-01-01T10:00:00.000000Z"),
  *     @OA\Property(property="updated_at", type="string", format="date-time", example="2026-01-01T10:00:00.000000Z"),
  *     @OA\Property(
