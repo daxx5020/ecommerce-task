@@ -15,6 +15,49 @@
         }
     ],
     "paths": {
+        "/api/admin/notifications": {
+            "post": {
+                "tags": [
+                    "Admin - Notifications"
+                ],
+                "summary": "Send bulk notification",
+                "operationId": "90a04a583ae553925076b839f21f268f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "message"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "New Product"
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Check out our new arrivals"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Notification queued"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/admin/orders": {
             "get": {
                 "tags": [
@@ -703,6 +746,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Admin - Notifications",
+            "description": "Admin - Notifications"
+        },
         {
             "name": "Admin - Orders",
             "description": "Admin - Orders"

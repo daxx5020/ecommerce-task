@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Admin\ProductController;
 use App\Http\Controllers\Api\User\ProductBrowseController;
 use App\Http\Controllers\Api\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Api\User\OrderController as UserOrderController;
+use App\Http\Controllers\Api\Admin\NotificationController;
 
 
 Route::get('/user', function (Request $request) {
@@ -43,6 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/products', [ProductController::class, 'store']);
         Route::patch('/orders/{id}/status', [AdminOrderController::class, 'updateStatus']);
         Route::get('/orders', [AdminOrderController::class, 'index']);
+        Route::post('/notifications', [NotificationController::class, 'store']);
 
     });
 });
