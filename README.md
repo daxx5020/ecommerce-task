@@ -98,10 +98,3 @@ php artisan l5-swagger:generate
 ```
 http://127.0.0.1:8000/api/documentation
 ```
-
-## 🔧 Troubleshooting
-
-- Ensure all PHP extensions required by Laravel are installed
-- Verify MySQL service is running
-- Check file permissions for `storage` and `bootstrap/cache` directories
-- Keep the queue worker running for background jobs
