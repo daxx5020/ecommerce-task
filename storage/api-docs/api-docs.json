@@ -15,6 +15,139 @@
         }
     ],
     "paths": {
+        "/api/admin/users": {
+            "get": {
+                "tags": [
+                    "Admin - Users"
+                ],
+                "summary": "List users (Admin only)",
+                "operationId": "aaf1051b1afcce4f7ee54f09454a671d",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "example": "john"
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "example": "1"
+                    },
+                    {
+                        "name": "from_date",
+                        "in": "query",
+                        "example": "2026-01-01"
+                    },
+                    {
+                        "name": "to_date",
+                        "in": "query",
+                        "example": "2026-01-31"
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "example": 10
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/users/{id}": {
+            "get": {
+                "tags": [
+                    "Admin - Users"
+                ],
+                "summary": "View single user (Admin only)",
+                "operationId": "45c4d2c61ab4fddc6923849aa66cc17d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 7
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User details"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/users/{id}/status": {
+            "patch": {
+                "tags": [
+                    "Admin - Users"
+                ],
+                "summary": "Enable or disable a user",
+                "operationId": "411522442e44adfe43c3b59c45e0810d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 7
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "status"
+                                ],
+                                "properties": {
+                                    "status": {
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User status updated successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/register": {
             "post": {
                 "tags": [
@@ -325,6 +458,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Admin - Users",
+            "description": "Admin - Users"
+        },
         {
             "name": "Authentication",
             "description": "Authentication"

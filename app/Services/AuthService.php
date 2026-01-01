@@ -7,6 +7,7 @@ use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Validation\ValidationException;
+use App\Http\Resources\UserResource;
 
 class AuthService
 {
@@ -41,7 +42,7 @@ class AuthService
 
         return [
             'token' => $token,
-            'user'  => $user->load('roles'),
+            'user'  => new UserResource($user->load('roles')),
         ];
     }
 
@@ -65,14 +66,14 @@ class AuthService
         ]);
 
         // Assign USER role automatically
-        $userRole = Role::where('name', 'user')->first();
+        $userRole = Role::where('name', 'user')->firstOrFail();
         $user->roles()->attach($userRole);
 
         $token = $user->createToken('api-token')->plainTextToken;
 
         return [
             'token' => $token,
-            'user'  => $user->load('roles'),
+            'user'  => new UserResource($user->load('roles')),
         ];
     }
 }
